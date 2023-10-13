@@ -288,7 +288,7 @@ impl ToString for CellAddress {
 }
 
 /// Value of given cell
-pub struct CellValue(i32, i32, Environment);
+pub struct CellValue(pub i32, pub i32);
 
 impl Evaluatable for CellValue {
     fn evaluate<'a>(&'a self, environment: &'a Environment) -> Result<Primitive, String> {

@@ -1,4 +1,4 @@
-use gridkid::{model::{Primitive, Operation, Evaluatable, CellAddress}, environment::Environment};
+use gridkid::{model::{Primitive, Operation, Evaluatable, CellAddress, CellValue}, environment::Environment};
 
 fn main() {
     let mut environment = Environment::init();
@@ -62,8 +62,13 @@ fn main() {
     println!("Adding to grid");
     environment.set_cell(&CellAddress(0, 0), Box::new(five));
     environment.set_cell(&CellAddress(0, 1), Box::new(not_test_str));
+    environment.set_cell(&CellAddress(1, 1), Box::new(CellValue(0, 0)));
+    environment.set_cell(&CellAddress(12, 13), Box::new(Operation::Equals(&Primitive::Integer(6), &Primitive::Integer(6))));
+    environment.set_cell(&CellAddress(13, 12), Box::new(Operation::Equals(&Primitive::Integer(6), &Primitive::String("hello, world"))));
 
     println!("{}: {}", CellAddress(0, 0).to_string(), environment.get_cell(&CellAddress(0, 0)).unwrap().to_string());
     println!("{}: {}", CellAddress(0, 1).to_string(), environment.get_cell(&CellAddress(0, 0)).unwrap().to_string());
-    println!("{}: {}", CellAddress(0, 2).to_string(), environment.get_cell(&CellAddress(0, 2)).unwrap().to_string());
+    // println!("{}: {}", CellAddress(0, 2).to_string(), environment.get_cell(&CellAddress(0, 2)).unwrap().to_string());
+    println!("(12, 13): {}", environment.get_cell(&CellAddress(12, 13)).unwrap().evaluate(&environment).unwrap().to_string());
+    println!("(13, 12): {}", environment.get_cell(&CellAddress(13, 12)).unwrap().evaluate(&environment).unwrap().to_string());
 }
